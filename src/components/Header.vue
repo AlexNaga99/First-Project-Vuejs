@@ -1,12 +1,12 @@
 <template>
   <div class="side-bar">
     <div  class="logo-bar">
-      <img src="../assets/nike.png" width="70" height="70" />
+      <a href="http://localhost:8080"><img src="../assets/nike.png" width="70" height="70" /></a>
     </div>
     <div class="menu-bar">
       <div class="menu-area">
-        <div v-for="(option, index) in menu_options" v-bind:key="option.name" class="centralize menu-item" @mouseover="onShow(index)" @mouseleave="onHidden(index)">
-          <p class="menu-item-text">{{option.name}}</p>
+        <div v-for="(option, index) in menu_options" v-bind:key="option.name" class="centralize menu-item" @mouseover="onShow(index)" @mouseleave="onHidden(index)"> 
+          <router-link :to="{ name: 'Shop', params: { category: option.path, title: option.name } }"><p class="menu-item-text">{{option.name}}</p></router-link>
         </div>
       </div>
     </div>
@@ -20,22 +20,26 @@
         <div class="full-width-sub-menu">
           <div class="sub-menu-box">
             <div v-for="subitem in item.submenu" v-bind:key="subitem.name">
-              <p>{{subitem.name}}</p>
+              <router-link :to="{ name: 'Shop', params: { category: subitem.path, title: subitem.name } }"><p class="submenu-item-text">{{subitem.name}}</p></router-link>
             </div>
           </div>
         </div>
       </div>
     </transition>
   </div>
+  <NewsBar class="news-bar" />
+  <router-view/>
 </template>
 
 <script>
 import Search from './Search.vue';
+import NewsBar from './News-bar.vue';
 
 export default {
   name: 'Header',
   components: {
     Search,
+    NewsBar
   },
   props: {
     // msg: String
@@ -51,69 +55,64 @@ export default {
       menu_options: [
         {
           name: 'Lançamentos',
-          path: '',
+          path: 'releases',
           submenu: [
             {
             name: 'Calçados',
-            path: '',
+            path: 'releases-footwear',
             },
             {
             name: 'Roupa',
-            path: '',
+            path: 'releases-clothing',
             },
             {
             name: 'Acessório',
-            path: '',
+            path: 'releases-accessory',
             }
           ]
         },
         {
           name: 'Feminino',
-          path: '',
-          submenu: [
-            {
-            name: 'Feminino',
-            path: '',
-            }
-          ]
+          path: 'feminine',
+          submenu: []
         },
         {
           name: 'Masculino',
-          path: '',
+          path: 'masculine',
           submenu: [
             {
             name: 'Masculino',
-            path: '',
+            path: 'masculine-teste',
             }
           ]
         },
         {
           name: 'Infantil',
-          path: '',
+          path: 'childish',
           submenu: [
             {
             name: 'Infantil',
-            path: '',
+            path: 'childish-teste',
             }
           ]
         },
         {
           name: 'SNKRS',
-          path: '',
+          path: 'snkrs',
           submenu: [
             {
             name: 'SNKRS',
-            path: '',
+            path: 'snkrs-teste',
             }
           ]
         },
         {
           name: 'Ofertas',
-          path: '',
+          path: 'offers',
           submenu: [
             {
             name: 'Ofertas',
-            path: '',
+            path: 'offers-teste',
             }
           ]
         },
@@ -155,17 +154,17 @@ export default {
       }
     },
     menu_sub_options(index) {
-      if(index == 0 && this.show0){
+      if(index == 0 && this.show0 && this.menu_options[0].submenu[0]){
         return true;
-      } else if(index == 1 && this.show1){
+      } else if(index == 1 && this.show1 && this.menu_options[1].submenu[0]){
         return true;
-      } else if(index == 2 && this.show2){
+      } else if(index == 2 && this.show2 && this.menu_options[2].submenu[0]){
         return true;
-      } else if(index == 3 && this.show3){
+      } else if(index == 3 && this.show3 && this.menu_options[3].submenu[0]){
         return true;
-      } else if(index == 4 && this.show4){
+      } else if(index == 4 && this.show4 && this.menu_options[4].submenu[0]){
         return true;
-      } else if(index == 5 && this.show5){
+      } else if(index == 5 && this.show5 && this.menu_options[5].submenu[0]){
         return true;
       }
       return false;
@@ -178,6 +177,9 @@ export default {
 </script>
 
 <style scoped>
+  .news-bar {
+    padding-top: 75.68px;
+  }
   .side-bar {
     justify-content: space-between;
     height: 75.68px;
@@ -217,6 +219,14 @@ export default {
     text-transform: uppercase;
     color: #111;
     font-family: NikeTG,HelveticaNeue,Helvetica,Arial,sans-serif;
+  }
+  .submenu-item-text {
+    padding: 2px;
+    color: #111;
+    font-family: NikeTG,HelveticaNeue,Helvetica,Arial,sans-serif;
+  }
+  .submenu-item-text:hover {
+    color: #808080;
   }
   .sub-menu-area {
     padding-top: 120px;
