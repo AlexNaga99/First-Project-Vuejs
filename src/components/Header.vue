@@ -237,6 +237,7 @@ export default {
     background: white;
     border-bottom: 1px solid #e5e5e5;
     min-height: auto;
+    z-index: 8;
   }
   .full-width-sub-menu {
     width: 100%;
